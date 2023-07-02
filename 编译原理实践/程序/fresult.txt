@@ -1,0 +1,5 @@
+Start CX interpret
+input a number: 2
+input a number: 3
+6
+End CX interpret

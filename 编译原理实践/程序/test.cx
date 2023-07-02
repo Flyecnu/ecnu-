@@ -1,0 +1,18 @@
+{
+    int x, y, re;
+    int modx, mody;
+    read(x, y);
+    if (x > y) {
+        re = x;
+    } else {
+        re = y;
+    }
+    modx = re % x;
+    mody = re % y;
+    while (modx != 0 || mody != 0) {
+        re++;
+        modx = re % x;
+        mody = re % y;
+    }
+    write(re);
+}

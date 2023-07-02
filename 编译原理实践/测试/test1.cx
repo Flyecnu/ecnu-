@@ -1,0 +1,6 @@
+{
+    const a = 1, b = 2;
+    write(1 + 2 * 3);
+    write(a + b);
+    write(a, b);
+}

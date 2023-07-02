@@ -1,0 +1,7 @@
+{
+    char a, b, d;
+    int c, e;
+    d = 'd';
+    read(a, b, c, e);
+    write(a, b, c, d, e);
+}

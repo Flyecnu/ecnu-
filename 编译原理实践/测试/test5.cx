@@ -1,0 +1,18 @@
+{
+    int a;
+    bool x;
+    a = 2;
+    x = true;
+    if (x && a == 1 + 1 || false) {
+        write(666);
+    }
+    if (true && false) {
+        write(777);
+    }
+    if (true || false)
+        write(888);
+    if (true && (x || false)) 
+        write(999);
+    if ((true && false) && (x || false))
+        write(0);
+}

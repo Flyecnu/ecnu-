@@ -1,0 +1,7 @@
+{
+    int x, y, z;
+    read(x, y, z);
+    write(x);
+    write(y);
+    write(z);
+}

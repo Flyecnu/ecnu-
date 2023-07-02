@@ -1,0 +1,26 @@
+{
+    int x;
+    x = 1;
+    do {
+        x++;
+    } while (x < 3);
+    write(x);
+
+    repeat {
+        x--;
+    } until (x == 1);
+    write(x);
+
+    while (x < 3) {
+        x++;
+    }
+    write(x);
+
+    for (x = 0; x < 2; x++) {
+        int y;
+        y = 0;
+        for (y = 0; y < 3; y++) {
+            write(y);
+        }
+    }
+}

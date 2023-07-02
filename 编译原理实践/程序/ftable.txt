@@ -1,0 +1,24 @@
+    1 var   x lev=0 addr=3
+    2 var   y lev=0 addr=4
+    3 var   re lev=0 addr=5
+    4 var   modx lev=0 addr=6
+    5 var   mody lev=0 addr=7
+
+    1 var   x lev=0 addr=3
+    2 var   y lev=0 addr=4
+    3 var   re lev=0 addr=5
+    4 var   modx lev=0 addr=6
+    5 var   mody lev=0 addr=7
+
+    1 var   x lev=0 addr=3
+    2 var   y lev=0 addr=4
+    3 var   re lev=0 addr=5
+    4 var   modx lev=0 addr=6
+    5 var   mody lev=0 addr=7
+
+    1 var   x lev=0 addr=3
+    2 var   y lev=0 addr=4
+    3 var   re lev=0 addr=5
+    4 var   modx lev=0 addr=6
+    5 var   mody lev=0 addr=7
+

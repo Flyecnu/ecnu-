@@ -1,0 +1,20 @@
+{
+    int i, j, mod, flag;
+    i = 3;
+    write(2);
+    while (i <= 100) {
+        flag = 1;
+        j = 2;
+        while (j < i) {
+            mod = i % j;
+            if (mod == 0) {
+                flag = 0;
+            }
+            j++;
+        }
+        if (flag == 1) {
+            write(i);
+        }
+        i++;
+    }
+}

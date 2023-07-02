@@ -1,0 +1,2873 @@
+Terminals which are not used
+
+   LBRACKET
+   RBRACKET
+
+
+Grammar
+
+    0 $accept: program $end
+
+    1 program: mainblock
+
+    2 @1: /* empty */
+
+    3 @2: /* empty */
+
+    4 @3: /* empty */
+
+    5 mainblock: LBRACE @1 constdecl vardecls @2 procdecls @3 statements RBRACE
+
+    6 @4: /* empty */
+
+    7 @5: /* empty */
+
+    8 @6: /* empty */
+
+    9 @7: /* empty */
+
+   10 blockstm: LBRACE inc_level @4 constdecl vardecls @5 statements @6 RBRACE @7 dec_level
+
+   11 constdecl: CONST constlist SEMICOLON
+   12          | CONST constlist
+   13          | /* empty */
+
+   14 constlist: constdef
+   15          | constlist COMMA constdef
+
+   16 constdef: IDENT BECOMES NUMBER
+
+   17 vardecls: vardecls vardecl
+   18         | /* empty */
+
+   19 vardecl: type varlist SEMICOLON
+   20        | type varlist
+
+   21 type: INT
+   22     | BOOL
+   23     | CHAR
+
+   24 varlist: vardef
+   25        | varlist COMMA vardef
+   26        | error
+
+   27 vardef: IDENT
+
+   28 procdecls: procdecls procdecl
+   29          | /* empty */
+
+   30 @8: /* empty */
+
+   31 procdecl: FUNC IDENT LPAREN RPAREN @8 procbody
+
+   32 @9: /* empty */
+
+   33 @10: /* empty */
+
+   34 @11: /* empty */
+
+   35 @12: /* empty */
+
+   36 procbody: LBRACE inc_level @9 get_table_addr constdecl vardecls @10 statements @11 RBRACE @12 dec_level
+
+   37 statements: statements statement
+   38           | /* empty */
+
+   39 statement: assignmentstm
+   40          | readstm
+   41          | writestm
+   42          | exitstm
+   43          | selfaddminus SEMICOLON
+   44          | ifstm
+   45          | whilestm
+   46          | blockstm
+   47          | callstm
+   48          | dowhilestm
+   49          | repeatstm
+   50          | forstm
+   51          | error
+
+   52 assignmentstm: ident BECOMES expression SEMICOLON
+   53              | ident BECOMES trueorfalse SEMICOLON
+   54              | ident BECOMES character SEMICOLON
+
+   55 readstm: READ LPAREN readvarlist RPAREN SEMICOLON
+
+   56 readvarlist: readvar
+   57            | readvarlist COMMA readvar
+
+   58 readvar: ident
+
+   59 writestm: WRITE LPAREN writeexplist RPAREN SEMICOLON
+
+   60 writeexplist: expression
+   61             | writeexplist COMMA expression
+
+   62 exitstm: EXIT SEMICOLON
+
+   63 selfaddminus: ident SELFADD
+   64             | ident SELFMIUNS
+
+   65 @13: /* empty */
+
+   66 ifstm: IF LPAREN bexpr RPAREN get_code_addr @13 statement elsestm
+
+   67 @14: /* empty */
+
+   68 elsestm: ELSE get_code_addr @14 statement
+   69        | /* empty */
+
+   70 @15: /* empty */
+
+   71 whilestm: WHILE get_code_addr LPAREN bexpr RPAREN get_code_addr @15 statement
+
+   72 @16: /* empty */
+
+   73 dowhilestm: DO get_code_addr statement get_code_addr WHILE LPAREN bexpr get_code_addr @16 RPAREN SEMICOLON
+
+   74 @17: /* empty */
+
+   75 repeatstm: REPEAT get_code_addr statement get_code_addr UNTIL LPAREN bexpr get_code_addr @17 RPAREN SEMICOLON
+
+   76 @18: /* empty */
+
+   77 @19: /* empty */
+
+   78 @20: /* empty */
+
+   79 forstm: FOR LPAREN for1 get_code_addr for2 @18 SEMICOLON get_code_addr @19 get_code_addr for3 RPAREN @20 get_code_addr statement
+
+   80 for1: assignmentstm
+   81     | SEMICOLON
+
+   82 for2: bexpr
+   83     | /* empty */
+
+   84 for3: selfaddminus
+   85     | /* empty */
+
+   86 callstm: CALL ident SEMICOLON
+
+   87 bexpr: bexpr OR bterm
+   88      | bterm
+
+   89 bterm: bterm AND bfactor
+   90      | bfactor
+
+   91 bfactor: ident
+   92        | trueorfalse
+   93        | NOT bfactor
+   94        | ODD idornum
+   95        | LPAREN bexpr RPAREN
+   96        | rel
+
+   97 rel: idornum EQL expression
+   98    | idornum NEQ expression
+   99    | idornum LES expression
+  100    | idornum LEQ expression
+  101    | idornum GTR expression
+  102    | idornum GEQ expression
+
+  103 idornum: ident
+  104        | NUMBER
+
+  105 trueorfalse: TRUE
+  106            | FALSE
+
+  107 character: CHARACTER
+
+  108 expression: PLUS term
+  109           | MINUS term
+  110           | term
+  111           | expression PLUS term
+  112           | expression MINUS term
+
+  113 term: factor
+  114     | term TIMES factor
+  115     | term SLASH factor
+  116     | term MOD factor
+  117     | term XOR factor
+
+  118 factor: idornum
+  119       | LPAREN expression RPAREN
+
+  120 ident: IDENT
+
+  121 get_table_addr: /* empty */
+
+  122 get_code_addr: /* empty */
+
+  123 inc_level: /* empty */
+
+  124 dec_level: /* empty */
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+error (256) 26 51
+PLUS (258) 108 111
+MINUS (259) 109 112
+TIMES (260) 114
+SLASH (261) 115
+LES (262) 99
+LEQ (263) 100
+GTR (264) 101
+GEQ (265) 102
+EQL (266) 97
+NEQ (267) 98
+BECOMES (268) 16 52 53 54
+OR (269) 87
+AND (270) 89
+NOT (271) 93
+SEMICOLON (272) 11 19 43 52 53 54 55 59 62 73 75 79 81 86
+LPAREN (273) 31 55 59 66 71 73 75 79 95 119
+RPAREN (274) 31 55 59 66 71 73 75 79 95 119
+LBRACKET (275)
+RBRACKET (276)
+LBRACE (277) 5 10 36
+RBRACE (278) 5 10 36
+COMMA (279) 15 25 57 61
+IF (280) 66
+ELSE (281) 68
+WHILE (282) 71 73
+WRITE (283) 59
+READ (284) 55
+INT (285) 21
+BOOL (286) 22
+CONST (287) 11 12
+CHAR (288) 23
+SELFADD (289) 63
+SELFMIUNS (290) 64
+REPEAT (291) 75
+UNTIL (292) 75
+XOR (293) 117
+MOD (294) 116
+ODD (295) 94
+TRUE (296) 105
+FALSE (297) 106
+CALL (298) 86
+DO (299) 73
+FUNC (300) 31
+EXIT (301) 62
+FOR (302) 79
+IDENT (303) 16 27 31 120
+NUMBER (304) 16 104
+CHARACTER (305) 107
+IFX (306)
+
+
+Nonterminals, with rules where they appear
+
+$accept (52)
+    on left: 0
+program (53)
+    on left: 1, on right: 0
+mainblock (54)
+    on left: 5, on right: 1
+@1 (55)
+    on left: 2, on right: 5
+@2 (56)
+    on left: 3, on right: 5
+@3 (57)
+    on left: 4, on right: 5
+blockstm (58)
+    on left: 10, on right: 46
+@4 (59)
+    on left: 6, on right: 10
+@5 (60)
+    on left: 7, on right: 10
+@6 (61)
+    on left: 8, on right: 10
+@7 (62)
+    on left: 9, on right: 10
+constdecl (63)
+    on left: 11 12 13, on right: 5 10 36
+constlist (64)
+    on left: 14 15, on right: 11 12 15
+constdef (65)
+    on left: 16, on right: 14 15
+vardecls (66)
+    on left: 17 18, on right: 5 10 17 36
+vardecl (67)
+    on left: 19 20, on right: 17
+type (68)
+    on left: 21 22 23, on right: 19 20
+varlist (69)
+    on left: 24 25 26, on right: 19 20 25
+vardef (70)
+    on left: 27, on right: 24 25
+procdecls (71)
+    on left: 28 29, on right: 5 28
+procdecl (72)
+    on left: 31, on right: 28
+@8 (73)
+    on left: 30, on right: 31
+procbody (74)
+    on left: 36, on right: 31
+@9 (75)
+    on left: 32, on right: 36
+@10 (76)
+    on left: 33, on right: 36
+@11 (77)
+    on left: 34, on right: 36
+@12 (78)
+    on left: 35, on right: 36
+statements (79)
+    on left: 37 38, on right: 5 10 36 37
+statement (80)
+    on left: 39 40 41 42 43 44 45 46 47 48 49 50 51,
+    on right: 37 66 68 71 73 75 79
+assignmentstm (81)
+    on left: 52 53 54, on right: 39 80
+readstm (82)
+    on left: 55, on right: 40
+readvarlist (83)
+    on left: 56 57, on right: 55 57
+readvar (84)
+    on left: 58, on right: 56 57
+writestm (85)
+    on left: 59, on right: 41
+writeexplist (86)
+    on left: 60 61, on right: 59 61
+exitstm (87)
+    on left: 62, on right: 42
+selfaddminus (88)
+    on left: 63 64, on right: 43 84
+ifstm (89)
+    on left: 66, on right: 44
+@13 (90)
+    on left: 65, on right: 66
+elsestm (91)
+    on left: 68 69, on right: 66
+@14 (92)
+    on left: 67, on right: 68
+whilestm (93)
+    on left: 71, on right: 45
+@15 (94)
+    on left: 70, on right: 71
+dowhilestm (95)
+    on left: 73, on right: 48
+@16 (96)
+    on left: 72, on right: 73
+repeatstm (97)
+    on left: 75, on right: 49
+@17 (98)
+    on left: 74, on right: 75
+forstm (99)
+    on left: 79, on right: 50
+@18 (100)
+    on left: 76, on right: 79
+@19 (101)
+    on left: 77, on right: 79
+@20 (102)
+    on left: 78, on right: 79
+for1 (103)
+    on left: 80 81, on right: 79
+for2 (104)
+    on left: 82 83, on right: 79
+for3 (105)
+    on left: 84 85, on right: 79
+callstm (106)
+    on left: 86, on right: 47
+bexpr (107)
+    on left: 87 88, on right: 66 71 73 75 82 87 95
+bterm (108)
+    on left: 89 90, on right: 87 88 89
+bfactor (109)
+    on left: 91 92 93 94 95 96, on right: 89 90 93
+rel (110)
+    on left: 97 98 99 100 101 102, on right: 96
+idornum (111)
+    on left: 103 104, on right: 94 97 98 99 100 101 102 118
+trueorfalse (112)
+    on left: 105 106, on right: 53 92
+character (113)
+    on left: 107, on right: 54
+expression (114)
+    on left: 108 109 110 111 112, on right: 52 60 61 97 98 99 100 101
+    102 111 112 119
+term (115)
+    on left: 113 114 115 116 117, on right: 108 109 110 111 112 114
+    115 116 117
+factor (116)
+    on left: 118 119, on right: 113 114 115 116 117
+ident (117)
+    on left: 120, on right: 52 53 54 58 63 64 86 91 103
+get_table_addr (118)
+    on left: 121, on right: 36
+get_code_addr (119)
+    on left: 122, on right: 66 68 71 73 75 79
+inc_level (120)
+    on left: 123, on right: 10 36
+dec_level (121)
+    on left: 124, on right: 10 36
+
+
+state 0
+
+    0 $accept: . program $end
+
+    LBRACE  shift, and go to state 1
+
+    program    go to state 2
+    mainblock  go to state 3
+
+
+state 1
+
+    5 mainblock: LBRACE . @1 constdecl vardecls @2 procdecls @3 statements RBRACE
+
+    $default  reduce using rule 2 (@1)
+
+    @1  go to state 4
+
+
+state 2
+
+    0 $accept: program . $end
+
+    $end  shift, and go to state 5
+
+
+state 3
+
+    1 program: mainblock .
+
+    $default  reduce using rule 1 (program)
+
+
+state 4
+
+    5 mainblock: LBRACE @1 . constdecl vardecls @2 procdecls @3 statements RBRACE
+
+    CONST  shift, and go to state 6
+
+    $default  reduce using rule 13 (constdecl)
+
+    constdecl  go to state 7
+
+
+state 5
+
+    0 $accept: program $end .
+
+    $default  accept
+
+
+state 6
+
+   11 constdecl: CONST . constlist SEMICOLON
+   12          | CONST . constlist
+
+    IDENT  shift, and go to state 8
+
+    constlist  go to state 9
+    constdef   go to state 10
+
+
+state 7
+
+    5 mainblock: LBRACE @1 constdecl . vardecls @2 procdecls @3 statements RBRACE
+
+    $default  reduce using rule 18 (vardecls)
+
+    vardecls  go to state 11
+
+
+state 8
+
+   16 constdef: IDENT . BECOMES NUMBER
+
+    BECOMES  shift, and go to state 12
+
+
+state 9
+
+   11 constdecl: CONST constlist . SEMICOLON
+   12          | CONST constlist .
+   15 constlist: constlist . COMMA constdef
+
+    SEMICOLON  shift, and go to state 13
+    COMMA      shift, and go to state 14
+
+    $default  reduce using rule 12 (constdecl)
+
+
+state 10
+
+   14 constlist: constdef .
+
+    $default  reduce using rule 14 (constlist)
+
+
+state 11
+
+    5 mainblock: LBRACE @1 constdecl vardecls . @2 procdecls @3 statements RBRACE
+   17 vardecls: vardecls . vardecl
+
+    INT   shift, and go to state 15
+    BOOL  shift, and go to state 16
+    CHAR  shift, and go to state 17
+
+    $default  reduce using rule 3 (@2)
+
+    @2       go to state 18
+    vardecl  go to state 19
+    type     go to state 20
+
+
+state 12
+
+   16 constdef: IDENT BECOMES . NUMBER
+
+    NUMBER  shift, and go to state 21
+
+
+state 13
+
+   11 constdecl: CONST constlist SEMICOLON .
+
+    $default  reduce using rule 11 (constdecl)
+
+
+state 14
+
+   15 constlist: constlist COMMA . constdef
+
+    IDENT  shift, and go to state 8
+
+    constdef  go to state 22
+
+
+state 15
+
+   21 type: INT .
+
+    $default  reduce using rule 21 (type)
+
+
+state 16
+
+   22 type: BOOL .
+
+    $default  reduce using rule 22 (type)
+
+
+state 17
+
+   23 type: CHAR .
+
+    $default  reduce using rule 23 (type)
+
+
+state 18
+
+    5 mainblock: LBRACE @1 constdecl vardecls @2 . procdecls @3 statements RBRACE
+
+    $default  reduce using rule 29 (procdecls)
+
+    procdecls  go to state 23
+
+
+state 19
+
+   17 vardecls: vardecls vardecl .
+
+    $default  reduce using rule 17 (vardecls)
+
+
+state 20
+
+   19 vardecl: type . varlist SEMICOLON
+   20        | type . varlist
+
+    error  shift, and go to state 24
+    IDENT  shift, and go to state 25
+
+    varlist  go to state 26
+    vardef   go to state 27
+
+
+state 21
+
+   16 constdef: IDENT BECOMES NUMBER .
+
+    $default  reduce using rule 16 (constdef)
+
+
+state 22
+
+   15 constlist: constlist COMMA constdef .
+
+    $default  reduce using rule 15 (constlist)
+
+
+state 23
+
+    5 mainblock: LBRACE @1 constdecl vardecls @2 procdecls . @3 statements RBRACE
+   28 procdecls: procdecls . procdecl
+
+    FUNC  shift, and go to state 28
+
+    $default  reduce using rule 4 (@3)
+
+    @3        go to state 29
+    procdecl  go to state 30
+
+
+state 24
+
+   26 varlist: error .
+
+    $default  reduce using rule 26 (varlist)
+
+
+state 25
+
+   27 vardef: IDENT .
+
+    $default  reduce using rule 27 (vardef)
+
+
+state 26
+
+   19 vardecl: type varlist . SEMICOLON
+   20        | type varlist .
+   25 varlist: varlist . COMMA vardef
+
+    SEMICOLON  shift, and go to state 31
+    COMMA      shift, and go to state 32
+
+    $default  reduce using rule 20 (vardecl)
+
+
+state 27
+
+   24 varlist: vardef .
+
+    $default  reduce using rule 24 (varlist)
+
+
+state 28
+
+   31 procdecl: FUNC . IDENT LPAREN RPAREN @8 procbody
+
+    IDENT  shift, and go to state 33
+
+
+state 29
+
+    5 mainblock: LBRACE @1 constdecl vardecls @2 procdecls @3 . statements RBRACE
+
+    $default  reduce using rule 38 (statements)
+
+    statements  go to state 34
+
+
+state 30
+
+   28 procdecls: procdecls procdecl .
+
+    $default  reduce using rule 28 (procdecls)
+
+
+state 31
+
+   19 vardecl: type varlist SEMICOLON .
+
+    $default  reduce using rule 19 (vardecl)
+
+
+state 32
+
+   25 varlist: varlist COMMA . vardef
+
+    IDENT  shift, and go to state 25
+
+    vardef  go to state 35
+
+
+state 33
+
+   31 procdecl: FUNC IDENT . LPAREN RPAREN @8 procbody
+
+    LPAREN  shift, and go to state 36
+
+
+state 34
+
+    5 mainblock: LBRACE @1 constdecl vardecls @2 procdecls @3 statements . RBRACE
+   37 statements: statements . statement
+
+    error   shift, and go to state 37
+    LBRACE  shift, and go to state 38
+    RBRACE  shift, and go to state 39
+    IF      shift, and go to state 40
+    WHILE   shift, and go to state 41
+    WRITE   shift, and go to state 42
+    READ    shift, and go to state 43
+    REPEAT  shift, and go to state 44
+    CALL    shift, and go to state 45
+    DO      shift, and go to state 46
+    EXIT    shift, and go to state 47
+    FOR     shift, and go to state 48
+    IDENT   shift, and go to state 49
+
+    blockstm       go to state 50
+    statement      go to state 51
+    assignmentstm  go to state 52
+    readstm        go to state 53
+    writestm       go to state 54
+    exitstm        go to state 55
+    selfaddminus   go to state 56
+    ifstm          go to state 57
+    whilestm       go to state 58
+    dowhilestm     go to state 59
+    repeatstm      go to state 60
+    forstm         go to state 61
+    callstm        go to state 62
+    ident          go to state 63
+
+
+state 35
+
+   25 varlist: varlist COMMA vardef .
+
+    $default  reduce using rule 25 (varlist)
+
+
+state 36
+
+   31 procdecl: FUNC IDENT LPAREN . RPAREN @8 procbody
+
+    RPAREN  shift, and go to state 64
+
+
+state 37
+
+   51 statement: error .
+
+    $default  reduce using rule 51 (statement)
+
+
+state 38
+
+   10 blockstm: LBRACE . inc_level @4 constdecl vardecls @5 statements @6 RBRACE @7 dec_level
+
+    $default  reduce using rule 123 (inc_level)
+
+    inc_level  go to state 65
+
+
+state 39
+
+    5 mainblock: LBRACE @1 constdecl vardecls @2 procdecls @3 statements RBRACE .
+
+    $default  reduce using rule 5 (mainblock)
+
+
+state 40
+
+   66 ifstm: IF . LPAREN bexpr RPAREN get_code_addr @13 statement elsestm
+
+    LPAREN  shift, and go to state 66
+
+
+state 41
+
+   71 whilestm: WHILE . get_code_addr LPAREN bexpr RPAREN get_code_addr @15 statement
+
+    $default  reduce using rule 122 (get_code_addr)
+
+    get_code_addr  go to state 67
+
+
+state 42
+
+   59 writestm: WRITE . LPAREN writeexplist RPAREN SEMICOLON
+
+    LPAREN  shift, and go to state 68
+
+
+state 43
+
+   55 readstm: READ . LPAREN readvarlist RPAREN SEMICOLON
+
+    LPAREN  shift, and go to state 69
+
+
+state 44
+
+   75 repeatstm: REPEAT . get_code_addr statement get_code_addr UNTIL LPAREN bexpr get_code_addr @17 RPAREN SEMICOLON
+
+    $default  reduce using rule 122 (get_code_addr)
+
+    get_code_addr  go to state 70
+
+
+state 45
+
+   86 callstm: CALL . ident SEMICOLON
+
+    IDENT  shift, and go to state 49
+
+    ident  go to state 71
+
+
+state 46
+
+   73 dowhilestm: DO . get_code_addr statement get_code_addr WHILE LPAREN bexpr get_code_addr @16 RPAREN SEMICOLON
+
+    $default  reduce using rule 122 (get_code_addr)
+
+    get_code_addr  go to state 72
+
+
+state 47
+
+   62 exitstm: EXIT . SEMICOLON
+
+    SEMICOLON  shift, and go to state 73
+
+
+state 48
+
+   79 forstm: FOR . LPAREN for1 get_code_addr for2 @18 SEMICOLON get_code_addr @19 get_code_addr for3 RPAREN @20 get_code_addr statement
+
+    LPAREN  shift, and go to state 74
+
+
+state 49
+
+  120 ident: IDENT .
+
+    $default  reduce using rule 120 (ident)
+
+
+state 50
+
+   46 statement: blockstm .
+
+    $default  reduce using rule 46 (statement)
+
+
+state 51
+
+   37 statements: statements statement .
+
+    $default  reduce using rule 37 (statements)
+
+
+state 52
+
+   39 statement: assignmentstm .
+
+    $default  reduce using rule 39 (statement)
+
+
+state 53
+
+   40 statement: readstm .
+
+    $default  reduce using rule 40 (statement)
+
+
+state 54
+
+   41 statement: writestm .
+
+    $default  reduce using rule 41 (statement)
+
+
+state 55
+
+   42 statement: exitstm .
+
+    $default  reduce using rule 42 (statement)
+
+
+state 56
+
+   43 statement: selfaddminus . SEMICOLON
+
+    SEMICOLON  shift, and go to state 75
+
+
+state 57
+
+   44 statement: ifstm .
+
+    $default  reduce using rule 44 (statement)
+
+
+state 58
+
+   45 statement: whilestm .
+
+    $default  reduce using rule 45 (statement)
+
+
+state 59
+
+   48 statement: dowhilestm .
+
+    $default  reduce using rule 48 (statement)
+
+
+state 60
+
+   49 statement: repeatstm .
+
+    $default  reduce using rule 49 (statement)
+
+
+state 61
+
+   50 statement: forstm .
+
+    $default  reduce using rule 50 (statement)
+
+
+state 62
+
+   47 statement: callstm .
+
+    $default  reduce using rule 47 (statement)
+
+
+state 63
+
+   52 assignmentstm: ident . BECOMES expression SEMICOLON
+   53              | ident . BECOMES trueorfalse SEMICOLON
+   54              | ident . BECOMES character SEMICOLON
+   63 selfaddminus: ident . SELFADD
+   64             | ident . SELFMIUNS
+
+    BECOMES    shift, and go to state 76
+    SELFADD    shift, and go to state 77
+    SELFMIUNS  shift, and go to state 78
+
+
+state 64
+
+   31 procdecl: FUNC IDENT LPAREN RPAREN . @8 procbody
+
+    $default  reduce using rule 30 (@8)
+
+    @8  go to state 79
+
+
+state 65
+
+   10 blockstm: LBRACE inc_level . @4 constdecl vardecls @5 statements @6 RBRACE @7 dec_level
+
+    $default  reduce using rule 6 (@4)
+
+    @4  go to state 80
+
+
+state 66
+
+   66 ifstm: IF LPAREN . bexpr RPAREN get_code_addr @13 statement elsestm
+
+    NOT     shift, and go to state 81
+    LPAREN  shift, and go to state 82
+    ODD     shift, and go to state 83
+    TRUE    shift, and go to state 84
+    FALSE   shift, and go to state 85
+    IDENT   shift, and go to state 49
+    NUMBER  shift, and go to state 86
+
+    bexpr        go to state 87
+    bterm        go to state 88
+    bfactor      go to state 89
+    rel          go to state 90
+    idornum      go to state 91
+    trueorfalse  go to state 92
+    ident        go to state 93
+
+
+state 67
+
+   71 whilestm: WHILE get_code_addr . LPAREN bexpr RPAREN get_code_addr @15 statement
+
+    LPAREN  shift, and go to state 94
+
+
+state 68
+
+   59 writestm: WRITE LPAREN . writeexplist RPAREN SEMICOLON
+
+    PLUS    shift, and go to state 95
+    MINUS   shift, and go to state 96
+    LPAREN  shift, and go to state 97
+    IDENT   shift, and go to state 49
+    NUMBER  shift, and go to state 86
+
+    writeexplist  go to state 98
+    idornum       go to state 99
+    expression    go to state 100
+    term          go to state 101
+    factor        go to state 102
+    ident         go to state 103
+
+
+state 69
+
+   55 readstm: READ LPAREN . readvarlist RPAREN SEMICOLON
+
+    IDENT  shift, and go to state 49
+
+    readvarlist  go to state 104
+    readvar      go to state 105
+    ident        go to state 106
+
+
+state 70
+
+   75 repeatstm: REPEAT get_code_addr . statement get_code_addr UNTIL LPAREN bexpr get_code_addr @17 RPAREN SEMICOLON
+
+    error   shift, and go to state 37
+    LBRACE  shift, and go to state 38
+    IF      shift, and go to state 40
+    WHILE   shift, and go to state 41
+    WRITE   shift, and go to state 42
+    READ    shift, and go to state 43
+    REPEAT  shift, and go to state 44
+    CALL    shift, and go to state 45
+    DO      shift, and go to state 46
+    EXIT    shift, and go to state 47
+    FOR     shift, and go to state 48
+    IDENT   shift, and go to state 49
+
+    blockstm       go to state 50
+    statement      go to state 107
+    assignmentstm  go to state 52
+    readstm        go to state 53
+    writestm       go to state 54
+    exitstm        go to state 55
+    selfaddminus   go to state 56
+    ifstm          go to state 57
+    whilestm       go to state 58
+    dowhilestm     go to state 59
+    repeatstm      go to state 60
+    forstm         go to state 61
+    callstm        go to state 62
+    ident          go to state 63
+
+
+state 71
+
+   86 callstm: CALL ident . SEMICOLON
+
+    SEMICOLON  shift, and go to state 108
+
+
+state 72
+
+   73 dowhilestm: DO get_code_addr . statement get_code_addr WHILE LPAREN bexpr get_code_addr @16 RPAREN SEMICOLON
+
+    error   shift, and go to state 37
+    LBRACE  shift, and go to state 38
+    IF      shift, and go to state 40
+    WHILE   shift, and go to state 41
+    WRITE   shift, and go to state 42
+    READ    shift, and go to state 43
+    REPEAT  shift, and go to state 44
+    CALL    shift, and go to state 45
+    DO      shift, and go to state 46
+    EXIT    shift, and go to state 47
+    FOR     shift, and go to state 48
+    IDENT   shift, and go to state 49
+
+    blockstm       go to state 50
+    statement      go to state 109
+    assignmentstm  go to state 52
+    readstm        go to state 53
+    writestm       go to state 54
+    exitstm        go to state 55
+    selfaddminus   go to state 56
+    ifstm          go to state 57
+    whilestm       go to state 58
+    dowhilestm     go to state 59
+    repeatstm      go to state 60
+    forstm         go to state 61
+    callstm        go to state 62
+    ident          go to state 63
+
+
+state 73
+
+   62 exitstm: EXIT SEMICOLON .
+
+    $default  reduce using rule 62 (exitstm)
+
+
+state 74
+
+   79 forstm: FOR LPAREN . for1 get_code_addr for2 @18 SEMICOLON get_code_addr @19 get_code_addr for3 RPAREN @20 get_code_addr statement
+
+    SEMICOLON  shift, and go to state 110
+    IDENT      shift, and go to state 49
+
+    assignmentstm  go to state 111
+    for1           go to state 112
+    ident          go to state 113
+
+
+state 75
+
+   43 statement: selfaddminus SEMICOLON .
+
+    $default  reduce using rule 43 (statement)
+
+
+state 76
+
+   52 assignmentstm: ident BECOMES . expression SEMICOLON
+   53              | ident BECOMES . trueorfalse SEMICOLON
+   54              | ident BECOMES . character SEMICOLON
+
+    PLUS       shift, and go to state 95
+    MINUS      shift, and go to state 96
+    LPAREN     shift, and go to state 97
+    TRUE       shift, and go to state 84
+    FALSE      shift, and go to state 85
+    IDENT      shift, and go to state 49
+    NUMBER     shift, and go to state 86
+    CHARACTER  shift, and go to state 114
+
+    idornum      go to state 99
+    trueorfalse  go to state 115
+    character    go to state 116
+    expression   go to state 117
+    term         go to state 101
+    factor       go to state 102
+    ident        go to state 103
+
+
+state 77
+
+   63 selfaddminus: ident SELFADD .
+
+    $default  reduce using rule 63 (selfaddminus)
+
+
+state 78
+
+   64 selfaddminus: ident SELFMIUNS .
+
+    $default  reduce using rule 64 (selfaddminus)
+
+
+state 79
+
+   31 procdecl: FUNC IDENT LPAREN RPAREN @8 . procbody
+
+    LBRACE  shift, and go to state 118
+
+    procbody  go to state 119
+
+
+state 80
+
+   10 blockstm: LBRACE inc_level @4 . constdecl vardecls @5 statements @6 RBRACE @7 dec_level
+
+    CONST  shift, and go to state 6
+
+    $default  reduce using rule 13 (constdecl)
+
+    constdecl  go to state 120
+
+
+state 81
+
+   93 bfactor: NOT . bfactor
+
+    NOT     shift, and go to state 81
+    LPAREN  shift, and go to state 82
+    ODD     shift, and go to state 83
+    TRUE    shift, and go to state 84
+    FALSE   shift, and go to state 85
+    IDENT   shift, and go to state 49
+    NUMBER  shift, and go to state 86
+
+    bfactor      go to state 121
+    rel          go to state 90
+    idornum      go to state 91
+    trueorfalse  go to state 92
+    ident        go to state 93
+
+
+state 82
+
+   95 bfactor: LPAREN . bexpr RPAREN
+
+    NOT     shift, and go to state 81
+    LPAREN  shift, and go to state 82
+    ODD     shift, and go to state 83
+    TRUE    shift, and go to state 84
+    FALSE   shift, and go to state 85
+    IDENT   shift, and go to state 49
+    NUMBER  shift, and go to state 86
+
+    bexpr        go to state 122
+    bterm        go to state 88
+    bfactor      go to state 89
+    rel          go to state 90
+    idornum      go to state 91
+    trueorfalse  go to state 92
+    ident        go to state 93
+
+
+state 83
+
+   94 bfactor: ODD . idornum
+
+    IDENT   shift, and go to state 49
+    NUMBER  shift, and go to state 86
+
+    idornum  go to state 123
+    ident    go to state 103
+
+
+state 84
+
+  105 trueorfalse: TRUE .
+
+    $default  reduce using rule 105 (trueorfalse)
+
+
+state 85
+
+  106 trueorfalse: FALSE .
+
+    $default  reduce using rule 106 (trueorfalse)
+
+
+state 86
+
+  104 idornum: NUMBER .
+
+    $default  reduce using rule 104 (idornum)
+
+
+state 87
+
+   66 ifstm: IF LPAREN bexpr . RPAREN get_code_addr @13 statement elsestm
+   87 bexpr: bexpr . OR bterm
+
+    OR      shift, and go to state 124
+    RPAREN  shift, and go to state 125
+
+
+state 88
+
+   88 bexpr: bterm .
+   89 bterm: bterm . AND bfactor
+
+    AND  shift, and go to state 126
+
+    $default  reduce using rule 88 (bexpr)
+
+
+state 89
+
+   90 bterm: bfactor .
+
+    $default  reduce using rule 90 (bterm)
+
+
+state 90
+
+   96 bfactor: rel .
+
+    $default  reduce using rule 96 (bfactor)
+
+
+state 91
+
+   97 rel: idornum . EQL expression
+   98    | idornum . NEQ expression
+   99    | idornum . LES expression
+  100    | idornum . LEQ expression
+  101    | idornum . GTR expression
+  102    | idornum . GEQ expression
+
+    LES  shift, and go to state 127
+    LEQ  shift, and go to state 128
+    GTR  shift, and go to state 129
+    GEQ  shift, and go to state 130
+    EQL  shift, and go to state 131
+    NEQ  shift, and go to state 132
+
+
+state 92
+
+   92 bfactor: trueorfalse .
+
+    $default  reduce using rule 92 (bfactor)
+
+
+state 93
+
+   91 bfactor: ident .
+  103 idornum: ident .
+
+    OR         reduce using rule 91 (bfactor)
+    AND        reduce using rule 91 (bfactor)
+    SEMICOLON  reduce using rule 91 (bfactor)
+    RPAREN     reduce using rule 91 (bfactor)
+    $default   reduce using rule 103 (idornum)
+
+
+state 94
+
+   71 whilestm: WHILE get_code_addr LPAREN . bexpr RPAREN get_code_addr @15 statement
+
+    NOT     shift, and go to state 81
+    LPAREN  shift, and go to state 82
+    ODD     shift, and go to state 83
+    TRUE    shift, and go to state 84
+    FALSE   shift, and go to state 85
+    IDENT   shift, and go to state 49
+    NUMBER  shift, and go to state 86
+
+    bexpr        go to state 133
+    bterm        go to state 88
+    bfactor      go to state 89
+    rel          go to state 90
+    idornum      go to state 91
+    trueorfalse  go to state 92
+    ident        go to state 93
+
+
+state 95
+
+  108 expression: PLUS . term
+
+    LPAREN  shift, and go to state 97
+    IDENT   shift, and go to state 49
+    NUMBER  shift, and go to state 86
+
+    idornum  go to state 99
+    term     go to state 134
+    factor   go to state 102
+    ident    go to state 103
+
+
+state 96
+
+  109 expression: MINUS . term
+
+    LPAREN  shift, and go to state 97
+    IDENT   shift, and go to state 49
+    NUMBER  shift, and go to state 86
+
+    idornum  go to state 99
+    term     go to state 135
+    factor   go to state 102
+    ident    go to state 103
+
+
+state 97
+
+  119 factor: LPAREN . expression RPAREN
+
+    PLUS    shift, and go to state 95
+    MINUS   shift, and go to state 96
+    LPAREN  shift, and go to state 97
+    IDENT   shift, and go to state 49
+    NUMBER  shift, and go to state 86
+
+    idornum     go to state 99
+    expression  go to state 136
+    term        go to state 101
+    factor      go to state 102
+    ident       go to state 103
+
+
+state 98
+
+   59 writestm: WRITE LPAREN writeexplist . RPAREN SEMICOLON
+   61 writeexplist: writeexplist . COMMA expression
+
+    RPAREN  shift, and go to state 137
+    COMMA   shift, and go to state 138
+
+
+state 99
+
+  118 factor: idornum .
+
+    $default  reduce using rule 118 (factor)
+
+
+state 100
+
+   60 writeexplist: expression .
+  111 expression: expression . PLUS term
+  112           | expression . MINUS term
+
+    PLUS   shift, and go to state 139
+    MINUS  shift, and go to state 140
+
+    $default  reduce using rule 60 (writeexplist)
+
+
+state 101
+
+  110 expression: term .
+  114 term: term . TIMES factor
+  115     | term . SLASH factor
+  116     | term . MOD factor
+  117     | term . XOR factor
+
+    TIMES  shift, and go to state 141
+    SLASH  shift, and go to state 142
+    XOR    shift, and go to state 143
+    MOD    shift, and go to state 144
+
+    $default  reduce using rule 110 (expression)
+
+
+state 102
+
+  113 term: factor .
+
+    $default  reduce using rule 113 (term)
+
+
+state 103
+
+  103 idornum: ident .
+
+    $default  reduce using rule 103 (idornum)
+
+
+state 104
+
+   55 readstm: READ LPAREN readvarlist . RPAREN SEMICOLON
+   57 readvarlist: readvarlist . COMMA readvar
+
+    RPAREN  shift, and go to state 145
+    COMMA   shift, and go to state 146
+
+
+state 105
+
+   56 readvarlist: readvar .
+
+    $default  reduce using rule 56 (readvarlist)
+
+
+state 106
+
+   58 readvar: ident .
+
+    $default  reduce using rule 58 (readvar)
+
+
+state 107
+
+   75 repeatstm: REPEAT get_code_addr statement . get_code_addr UNTIL LPAREN bexpr get_code_addr @17 RPAREN SEMICOLON
+
+    $default  reduce using rule 122 (get_code_addr)
+
+    get_code_addr  go to state 147
+
+
+state 108
+
+   86 callstm: CALL ident SEMICOLON .
+
+    $default  reduce using rule 86 (callstm)
+
+
+state 109
+
+   73 dowhilestm: DO get_code_addr statement . get_code_addr WHILE LPAREN bexpr get_code_addr @16 RPAREN SEMICOLON
+
+    $default  reduce using rule 122 (get_code_addr)
+
+    get_code_addr  go to state 148
+
+
+state 110
+
+   81 for1: SEMICOLON .
+
+    $default  reduce using rule 81 (for1)
+
+
+state 111
+
+   80 for1: assignmentstm .
+
+    $default  reduce using rule 80 (for1)
+
+
+state 112
+
+   79 forstm: FOR LPAREN for1 . get_code_addr for2 @18 SEMICOLON get_code_addr @19 get_code_addr for3 RPAREN @20 get_code_addr statement
+
+    $default  reduce using rule 122 (get_code_addr)
+
+    get_code_addr  go to state 149
+
+
+state 113
+
+   52 assignmentstm: ident . BECOMES expression SEMICOLON
+   53              | ident . BECOMES trueorfalse SEMICOLON
+   54              | ident . BECOMES character SEMICOLON
+
+    BECOMES  shift, and go to state 76
+
+
+state 114
+
+  107 character: CHARACTER .
+
+    $default  reduce using rule 107 (character)
+
+
+state 115
+
+   53 assignmentstm: ident BECOMES trueorfalse . SEMICOLON
+
+    SEMICOLON  shift, and go to state 150
+
+
+state 116
+
+   54 assignmentstm: ident BECOMES character . SEMICOLON
+
+    SEMICOLON  shift, and go to state 151
+
+
+state 117
+
+   52 assignmentstm: ident BECOMES expression . SEMICOLON
+  111 expression: expression . PLUS term
+  112           | expression . MINUS term
+
+    PLUS       shift, and go to state 139
+    MINUS      shift, and go to state 140
+    SEMICOLON  shift, and go to state 152
+
+
+state 118
+
+   36 procbody: LBRACE . inc_level @9 get_table_addr constdecl vardecls @10 statements @11 RBRACE @12 dec_level
+
+    $default  reduce using rule 123 (inc_level)
+
+    inc_level  go to state 153
+
+
+state 119
+
+   31 procdecl: FUNC IDENT LPAREN RPAREN @8 procbody .
+
+    $default  reduce using rule 31 (procdecl)
+
+
+state 120
+
+   10 blockstm: LBRACE inc_level @4 constdecl . vardecls @5 statements @6 RBRACE @7 dec_level
+
+    $default  reduce using rule 18 (vardecls)
+
+    vardecls  go to state 154
+
+
+state 121
+
+   93 bfactor: NOT bfactor .
+
+    $default  reduce using rule 93 (bfactor)
+
+
+state 122
+
+   87 bexpr: bexpr . OR bterm
+   95 bfactor: LPAREN bexpr . RPAREN
+
+    OR      shift, and go to state 124
+    RPAREN  shift, and go to state 155
+
+
+state 123
+
+   94 bfactor: ODD idornum .
+
+    $default  reduce using rule 94 (bfactor)
+
+
+state 124
+
+   87 bexpr: bexpr OR . bterm
+
+    NOT     shift, and go to state 81
+    LPAREN  shift, and go to state 82
+    ODD     shift, and go to state 83
+    TRUE    shift, and go to state 84
+    FALSE   shift, and go to state 85
+    IDENT   shift, and go to state 49
+    NUMBER  shift, and go to state 86
+
+    bterm        go to state 156
+    bfactor      go to state 89
+    rel          go to state 90
+    idornum      go to state 91
+    trueorfalse  go to state 92
+    ident        go to state 93
+
+
+state 125
+
+   66 ifstm: IF LPAREN bexpr RPAREN . get_code_addr @13 statement elsestm
+
+    $default  reduce using rule 122 (get_code_addr)
+
+    get_code_addr  go to state 157
+
+
+state 126
+
+   89 bterm: bterm AND . bfactor
+
+    NOT     shift, and go to state 81
+    LPAREN  shift, and go to state 82
+    ODD     shift, and go to state 83
+    TRUE    shift, and go to state 84
+    FALSE   shift, and go to state 85
+    IDENT   shift, and go to state 49
+    NUMBER  shift, and go to state 86
+
+    bfactor      go to state 158
+    rel          go to state 90
+    idornum      go to state 91
+    trueorfalse  go to state 92
+    ident        go to state 93
+
+
+state 127
+
+   99 rel: idornum LES . expression
+
+    PLUS    shift, and go to state 95
+    MINUS   shift, and go to state 96
+    LPAREN  shift, and go to state 97
+    IDENT   shift, and go to state 49
+    NUMBER  shift, and go to state 86
+
+    idornum     go to state 99
+    expression  go to state 159
+    term        go to state 101
+    factor      go to state 102
+    ident       go to state 103
+
+
+state 128
+
+  100 rel: idornum LEQ . expression
+
+    PLUS    shift, and go to state 95
+    MINUS   shift, and go to state 96
+    LPAREN  shift, and go to state 97
+    IDENT   shift, and go to state 49
+    NUMBER  shift, and go to state 86
+
+    idornum     go to state 99
+    expression  go to state 160
+    term        go to state 101
+    factor      go to state 102
+    ident       go to state 103
+
+
+state 129
+
+  101 rel: idornum GTR . expression
+
+    PLUS    shift, and go to state 95
+    MINUS   shift, and go to state 96
+    LPAREN  shift, and go to state 97
+    IDENT   shift, and go to state 49
+    NUMBER  shift, and go to state 86
+
+    idornum     go to state 99
+    expression  go to state 161
+    term        go to state 101
+    factor      go to state 102
+    ident       go to state 103
+
+
+state 130
+
+  102 rel: idornum GEQ . expression
+
+    PLUS    shift, and go to state 95
+    MINUS   shift, and go to state 96
+    LPAREN  shift, and go to state 97
+    IDENT   shift, and go to state 49
+    NUMBER  shift, and go to state 86
+
+    idornum     go to state 99
+    expression  go to state 162
+    term        go to state 101
+    factor      go to state 102
+    ident       go to state 103
+
+
+state 131
+
+   97 rel: idornum EQL . expression
+
+    PLUS    shift, and go to state 95
+    MINUS   shift, and go to state 96
+    LPAREN  shift, and go to state 97
+    IDENT   shift, and go to state 49
+    NUMBER  shift, and go to state 86
+
+    idornum     go to state 99
+    expression  go to state 163
+    term        go to state 101
+    factor      go to state 102
+    ident       go to state 103
+
+
+state 132
+
+   98 rel: idornum NEQ . expression
+
+    PLUS    shift, and go to state 95
+    MINUS   shift, and go to state 96
+    LPAREN  shift, and go to state 97
+    IDENT   shift, and go to state 49
+    NUMBER  shift, and go to state 86
+
+    idornum     go to state 99
+    expression  go to state 164
+    term        go to state 101
+    factor      go to state 102
+    ident       go to state 103
+
+
+state 133
+
+   71 whilestm: WHILE get_code_addr LPAREN bexpr . RPAREN get_code_addr @15 statement
+   87 bexpr: bexpr . OR bterm
+
+    OR      shift, and go to state 124
+    RPAREN  shift, and go to state 165
+
+
+state 134
+
+  108 expression: PLUS term .
+  114 term: term . TIMES factor
+  115     | term . SLASH factor
+  116     | term . MOD factor
+  117     | term . XOR factor
+
+    TIMES  shift, and go to state 141
+    SLASH  shift, and go to state 142
+    XOR    shift, and go to state 143
+    MOD    shift, and go to state 144
+
+    $default  reduce using rule 108 (expression)
+
+
+state 135
+
+  109 expression: MINUS term .
+  114 term: term . TIMES factor
+  115     | term . SLASH factor
+  116     | term . MOD factor
+  117     | term . XOR factor
+
+    TIMES  shift, and go to state 141
+    SLASH  shift, and go to state 142
+    XOR    shift, and go to state 143
+    MOD    shift, and go to state 144
+
+    $default  reduce using rule 109 (expression)
+
+
+state 136
+
+  111 expression: expression . PLUS term
+  112           | expression . MINUS term
+  119 factor: LPAREN expression . RPAREN
+
+    PLUS    shift, and go to state 139
+    MINUS   shift, and go to state 140
+    RPAREN  shift, and go to state 166
+
+
+state 137
+
+   59 writestm: WRITE LPAREN writeexplist RPAREN . SEMICOLON
+
+    SEMICOLON  shift, and go to state 167
+
+
+state 138
+
+   61 writeexplist: writeexplist COMMA . expression
+
+    PLUS    shift, and go to state 95
+    MINUS   shift, and go to state 96
+    LPAREN  shift, and go to state 97
+    IDENT   shift, and go to state 49
+    NUMBER  shift, and go to state 86
+
+    idornum     go to state 99
+    expression  go to state 168
+    term        go to state 101
+    factor      go to state 102
+    ident       go to state 103
+
+
+state 139
+
+  111 expression: expression PLUS . term
+
+    LPAREN  shift, and go to state 97
+    IDENT   shift, and go to state 49
+    NUMBER  shift, and go to state 86
+
+    idornum  go to state 99
+    term     go to state 169
+    factor   go to state 102
+    ident    go to state 103
+
+
+state 140
+
+  112 expression: expression MINUS . term
+
+    LPAREN  shift, and go to state 97
+    IDENT   shift, and go to state 49
+    NUMBER  shift, and go to state 86
+
+    idornum  go to state 99
+    term     go to state 170
+    factor   go to state 102
+    ident    go to state 103
+
+
+state 141
+
+  114 term: term TIMES . factor
+
+    LPAREN  shift, and go to state 97
+    IDENT   shift, and go to state 49
+    NUMBER  shift, and go to state 86
+
+    idornum  go to state 99
+    factor   go to state 171
+    ident    go to state 103
+
+
+state 142
+
+  115 term: term SLASH . factor
+
+    LPAREN  shift, and go to state 97
+    IDENT   shift, and go to state 49
+    NUMBER  shift, and go to state 86
+
+    idornum  go to state 99
+    factor   go to state 172
+    ident    go to state 103
+
+
+state 143
+
+  117 term: term XOR . factor
+
+    LPAREN  shift, and go to state 97
+    IDENT   shift, and go to state 49
+    NUMBER  shift, and go to state 86
+
+    idornum  go to state 99
+    factor   go to state 173
+    ident    go to state 103
+
+
+state 144
+
+  116 term: term MOD . factor
+
+    LPAREN  shift, and go to state 97
+    IDENT   shift, and go to state 49
+    NUMBER  shift, and go to state 86
+
+    idornum  go to state 99
+    factor   go to state 174
+    ident    go to state 103
+
+
+state 145
+
+   55 readstm: READ LPAREN readvarlist RPAREN . SEMICOLON
+
+    SEMICOLON  shift, and go to state 175
+
+
+state 146
+
+   57 readvarlist: readvarlist COMMA . readvar
+
+    IDENT  shift, and go to state 49
+
+    readvar  go to state 176
+    ident    go to state 106
+
+
+state 147
+
+   75 repeatstm: REPEAT get_code_addr statement get_code_addr . UNTIL LPAREN bexpr get_code_addr @17 RPAREN SEMICOLON
+
+    UNTIL  shift, and go to state 177
+
+
+state 148
+
+   73 dowhilestm: DO get_code_addr statement get_code_addr . WHILE LPAREN bexpr get_code_addr @16 RPAREN SEMICOLON
+
+    WHILE  shift, and go to state 178
+
+
+state 149
+
+   79 forstm: FOR LPAREN for1 get_code_addr . for2 @18 SEMICOLON get_code_addr @19 get_code_addr for3 RPAREN @20 get_code_addr statement
+
+    NOT     shift, and go to state 81
+    LPAREN  shift, and go to state 82
+    ODD     shift, and go to state 83
+    TRUE    shift, and go to state 84
+    FALSE   shift, and go to state 85
+    IDENT   shift, and go to state 49
+    NUMBER  shift, and go to state 86
+
+    $default  reduce using rule 83 (for2)
+
+    for2         go to state 179
+    bexpr        go to state 180
+    bterm        go to state 88
+    bfactor      go to state 89
+    rel          go to state 90
+    idornum      go to state 91
+    trueorfalse  go to state 92
+    ident        go to state 93
+
+
+state 150
+
+   53 assignmentstm: ident BECOMES trueorfalse SEMICOLON .
+
+    $default  reduce using rule 53 (assignmentstm)
+
+
+state 151
+
+   54 assignmentstm: ident BECOMES character SEMICOLON .
+
+    $default  reduce using rule 54 (assignmentstm)
+
+
+state 152
+
+   52 assignmentstm: ident BECOMES expression SEMICOLON .
+
+    $default  reduce using rule 52 (assignmentstm)
+
+
+state 153
+
+   36 procbody: LBRACE inc_level . @9 get_table_addr constdecl vardecls @10 statements @11 RBRACE @12 dec_level
+
+    $default  reduce using rule 32 (@9)
+
+    @9  go to state 181
+
+
+state 154
+
+   10 blockstm: LBRACE inc_level @4 constdecl vardecls . @5 statements @6 RBRACE @7 dec_level
+   17 vardecls: vardecls . vardecl
+
+    INT   shift, and go to state 15
+    BOOL  shift, and go to state 16
+    CHAR  shift, and go to state 17
+
+    $default  reduce using rule 7 (@5)
+
+    @5       go to state 182
+    vardecl  go to state 19
+    type     go to state 20
+
+
+state 155
+
+   95 bfactor: LPAREN bexpr RPAREN .
+
+    $default  reduce using rule 95 (bfactor)
+
+
+state 156
+
+   87 bexpr: bexpr OR bterm .
+   89 bterm: bterm . AND bfactor
+
+    AND  shift, and go to state 126
+
+    $default  reduce using rule 87 (bexpr)
+
+
+state 157
+
+   66 ifstm: IF LPAREN bexpr RPAREN get_code_addr . @13 statement elsestm
+
+    $default  reduce using rule 65 (@13)
+
+    @13  go to state 183
+
+
+state 158
+
+   89 bterm: bterm AND bfactor .
+
+    $default  reduce using rule 89 (bterm)
+
+
+state 159
+
+   99 rel: idornum LES expression .
+  111 expression: expression . PLUS term
+  112           | expression . MINUS term
+
+    PLUS   shift, and go to state 139
+    MINUS  shift, and go to state 140
+
+    $default  reduce using rule 99 (rel)
+
+
+state 160
+
+  100 rel: idornum LEQ expression .
+  111 expression: expression . PLUS term
+  112           | expression . MINUS term
+
+    PLUS   shift, and go to state 139
+    MINUS  shift, and go to state 140
+
+    $default  reduce using rule 100 (rel)
+
+
+state 161
+
+  101 rel: idornum GTR expression .
+  111 expression: expression . PLUS term
+  112           | expression . MINUS term
+
+    PLUS   shift, and go to state 139
+    MINUS  shift, and go to state 140
+
+    $default  reduce using rule 101 (rel)
+
+
+state 162
+
+  102 rel: idornum GEQ expression .
+  111 expression: expression . PLUS term
+  112           | expression . MINUS term
+
+    PLUS   shift, and go to state 139
+    MINUS  shift, and go to state 140
+
+    $default  reduce using rule 102 (rel)
+
+
+state 163
+
+   97 rel: idornum EQL expression .
+  111 expression: expression . PLUS term
+  112           | expression . MINUS term
+
+    PLUS   shift, and go to state 139
+    MINUS  shift, and go to state 140
+
+    $default  reduce using rule 97 (rel)
+
+
+state 164
+
+   98 rel: idornum NEQ expression .
+  111 expression: expression . PLUS term
+  112           | expression . MINUS term
+
+    PLUS   shift, and go to state 139
+    MINUS  shift, and go to state 140
+
+    $default  reduce using rule 98 (rel)
+
+
+state 165
+
+   71 whilestm: WHILE get_code_addr LPAREN bexpr RPAREN . get_code_addr @15 statement
+
+    $default  reduce using rule 122 (get_code_addr)
+
+    get_code_addr  go to state 184
+
+
+state 166
+
+  119 factor: LPAREN expression RPAREN .
+
+    $default  reduce using rule 119 (factor)
+
+
+state 167
+
+   59 writestm: WRITE LPAREN writeexplist RPAREN SEMICOLON .
+
+    $default  reduce using rule 59 (writestm)
+
+
+state 168
+
+   61 writeexplist: writeexplist COMMA expression .
+  111 expression: expression . PLUS term
+  112           | expression . MINUS term
+
+    PLUS   shift, and go to state 139
+    MINUS  shift, and go to state 140
+
+    $default  reduce using rule 61 (writeexplist)
+
+
+state 169
+
+  111 expression: expression PLUS term .
+  114 term: term . TIMES factor
+  115     | term . SLASH factor
+  116     | term . MOD factor
+  117     | term . XOR factor
+
+    TIMES  shift, and go to state 141
+    SLASH  shift, and go to state 142
+    XOR    shift, and go to state 143
+    MOD    shift, and go to state 144
+
+    $default  reduce using rule 111 (expression)
+
+
+state 170
+
+  112 expression: expression MINUS term .
+  114 term: term . TIMES factor
+  115     | term . SLASH factor
+  116     | term . MOD factor
+  117     | term . XOR factor
+
+    TIMES  shift, and go to state 141
+    SLASH  shift, and go to state 142
+    XOR    shift, and go to state 143
+    MOD    shift, and go to state 144
+
+    $default  reduce using rule 112 (expression)
+
+
+state 171
+
+  114 term: term TIMES factor .
+
+    $default  reduce using rule 114 (term)
+
+
+state 172
+
+  115 term: term SLASH factor .
+
+    $default  reduce using rule 115 (term)
+
+
+state 173
+
+  117 term: term XOR factor .
+
+    $default  reduce using rule 117 (term)
+
+
+state 174
+
+  116 term: term MOD factor .
+
+    $default  reduce using rule 116 (term)
+
+
+state 175
+
+   55 readstm: READ LPAREN readvarlist RPAREN SEMICOLON .
+
+    $default  reduce using rule 55 (readstm)
+
+
+state 176
+
+   57 readvarlist: readvarlist COMMA readvar .
+
+    $default  reduce using rule 57 (readvarlist)
+
+
+state 177
+
+   75 repeatstm: REPEAT get_code_addr statement get_code_addr UNTIL . LPAREN bexpr get_code_addr @17 RPAREN SEMICOLON
+
+    LPAREN  shift, and go to state 185
+
+
+state 178
+
+   73 dowhilestm: DO get_code_addr statement get_code_addr WHILE . LPAREN bexpr get_code_addr @16 RPAREN SEMICOLON
+
+    LPAREN  shift, and go to state 186
+
+
+state 179
+
+   79 forstm: FOR LPAREN for1 get_code_addr for2 . @18 SEMICOLON get_code_addr @19 get_code_addr for3 RPAREN @20 get_code_addr statement
+
+    $default  reduce using rule 76 (@18)
+
+    @18  go to state 187
+
+
+state 180
+
+   82 for2: bexpr .
+   87 bexpr: bexpr . OR bterm
+
+    OR  shift, and go to state 124
+
+    $default  reduce using rule 82 (for2)
+
+
+state 181
+
+   36 procbody: LBRACE inc_level @9 . get_table_addr constdecl vardecls @10 statements @11 RBRACE @12 dec_level
+
+    $default  reduce using rule 121 (get_table_addr)
+
+    get_table_addr  go to state 188
+
+
+state 182
+
+   10 blockstm: LBRACE inc_level @4 constdecl vardecls @5 . statements @6 RBRACE @7 dec_level
+
+    $default  reduce using rule 38 (statements)
+
+    statements  go to state 189
+
+
+state 183
+
+   66 ifstm: IF LPAREN bexpr RPAREN get_code_addr @13 . statement elsestm
+
+    error   shift, and go to state 37
+    LBRACE  shift, and go to state 38
+    IF      shift, and go to state 40
+    WHILE   shift, and go to state 41
+    WRITE   shift, and go to state 42
+    READ    shift, and go to state 43
+    REPEAT  shift, and go to state 44
+    CALL    shift, and go to state 45
+    DO      shift, and go to state 46
+    EXIT    shift, and go to state 47
+    FOR     shift, and go to state 48
+    IDENT   shift, and go to state 49
+
+    blockstm       go to state 50
+    statement      go to state 190
+    assignmentstm  go to state 52
+    readstm        go to state 53
+    writestm       go to state 54
+    exitstm        go to state 55
+    selfaddminus   go to state 56
+    ifstm          go to state 57
+    whilestm       go to state 58
+    dowhilestm     go to state 59
+    repeatstm      go to state 60
+    forstm         go to state 61
+    callstm        go to state 62
+    ident          go to state 63
+
+
+state 184
+
+   71 whilestm: WHILE get_code_addr LPAREN bexpr RPAREN get_code_addr . @15 statement
+
+    $default  reduce using rule 70 (@15)
+
+    @15  go to state 191
+
+
+state 185
+
+   75 repeatstm: REPEAT get_code_addr statement get_code_addr UNTIL LPAREN . bexpr get_code_addr @17 RPAREN SEMICOLON
+
+    NOT     shift, and go to state 81
+    LPAREN  shift, and go to state 82
+    ODD     shift, and go to state 83
+    TRUE    shift, and go to state 84
+    FALSE   shift, and go to state 85
+    IDENT   shift, and go to state 49
+    NUMBER  shift, and go to state 86
+
+    bexpr        go to state 192
+    bterm        go to state 88
+    bfactor      go to state 89
+    rel          go to state 90
+    idornum      go to state 91
+    trueorfalse  go to state 92
+    ident        go to state 93
+
+
+state 186
+
+   73 dowhilestm: DO get_code_addr statement get_code_addr WHILE LPAREN . bexpr get_code_addr @16 RPAREN SEMICOLON
+
+    NOT     shift, and go to state 81
+    LPAREN  shift, and go to state 82
+    ODD     shift, and go to state 83
+    TRUE    shift, and go to state 84
+    FALSE   shift, and go to state 85
+    IDENT   shift, and go to state 49
+    NUMBER  shift, and go to state 86
+
+    bexpr        go to state 193
+    bterm        go to state 88
+    bfactor      go to state 89
+    rel          go to state 90
+    idornum      go to state 91
+    trueorfalse  go to state 92
+    ident        go to state 93
+
+
+state 187
+
+   79 forstm: FOR LPAREN for1 get_code_addr for2 @18 . SEMICOLON get_code_addr @19 get_code_addr for3 RPAREN @20 get_code_addr statement
+
+    SEMICOLON  shift, and go to state 194
+
+
+state 188
+
+   36 procbody: LBRACE inc_level @9 get_table_addr . constdecl vardecls @10 statements @11 RBRACE @12 dec_level
+
+    CONST  shift, and go to state 6
+
+    $default  reduce using rule 13 (constdecl)
+
+    constdecl  go to state 195
+
+
+state 189
+
+   10 blockstm: LBRACE inc_level @4 constdecl vardecls @5 statements . @6 RBRACE @7 dec_level
+   37 statements: statements . statement
+
+    error   shift, and go to state 37
+    LBRACE  shift, and go to state 38
+    IF      shift, and go to state 40
+    WHILE   shift, and go to state 41
+    WRITE   shift, and go to state 42
+    READ    shift, and go to state 43
+    REPEAT  shift, and go to state 44
+    CALL    shift, and go to state 45
+    DO      shift, and go to state 46
+    EXIT    shift, and go to state 47
+    FOR     shift, and go to state 48
+    IDENT   shift, and go to state 49
+
+    RBRACE  reduce using rule 8 (@6)
+
+    blockstm       go to state 50
+    @6             go to state 196
+    statement      go to state 51
+    assignmentstm  go to state 52
+    readstm        go to state 53
+    writestm       go to state 54
+    exitstm        go to state 55
+    selfaddminus   go to state 56
+    ifstm          go to state 57
+    whilestm       go to state 58
+    dowhilestm     go to state 59
+    repeatstm      go to state 60
+    forstm         go to state 61
+    callstm        go to state 62
+    ident          go to state 63
+
+
+state 190
+
+   66 ifstm: IF LPAREN bexpr RPAREN get_code_addr @13 statement . elsestm
+
+    ELSE  shift, and go to state 197
+
+    $default  reduce using rule 69 (elsestm)
+
+    elsestm  go to state 198
+
+
+state 191
+
+   71 whilestm: WHILE get_code_addr LPAREN bexpr RPAREN get_code_addr @15 . statement
+
+    error   shift, and go to state 37
+    LBRACE  shift, and go to state 38
+    IF      shift, and go to state 40
+    WHILE   shift, and go to state 41
+    WRITE   shift, and go to state 42
+    READ    shift, and go to state 43
+    REPEAT  shift, and go to state 44
+    CALL    shift, and go to state 45
+    DO      shift, and go to state 46
+    EXIT    shift, and go to state 47
+    FOR     shift, and go to state 48
+    IDENT   shift, and go to state 49
+
+    blockstm       go to state 50
+    statement      go to state 199
+    assignmentstm  go to state 52
+    readstm        go to state 53
+    writestm       go to state 54
+    exitstm        go to state 55
+    selfaddminus   go to state 56
+    ifstm          go to state 57
+    whilestm       go to state 58
+    dowhilestm     go to state 59
+    repeatstm      go to state 60
+    forstm         go to state 61
+    callstm        go to state 62
+    ident          go to state 63
+
+
+state 192
+
+   75 repeatstm: REPEAT get_code_addr statement get_code_addr UNTIL LPAREN bexpr . get_code_addr @17 RPAREN SEMICOLON
+   87 bexpr: bexpr . OR bterm
+
+    OR  shift, and go to state 124
+
+    $default  reduce using rule 122 (get_code_addr)
+
+    get_code_addr  go to state 200
+
+
+state 193
+
+   73 dowhilestm: DO get_code_addr statement get_code_addr WHILE LPAREN bexpr . get_code_addr @16 RPAREN SEMICOLON
+   87 bexpr: bexpr . OR bterm
+
+    OR  shift, and go to state 124
+
+    $default  reduce using rule 122 (get_code_addr)
+
+    get_code_addr  go to state 201
+
+
+state 194
+
+   79 forstm: FOR LPAREN for1 get_code_addr for2 @18 SEMICOLON . get_code_addr @19 get_code_addr for3 RPAREN @20 get_code_addr statement
+
+    $default  reduce using rule 122 (get_code_addr)
+
+    get_code_addr  go to state 202
+
+
+state 195
+
+   36 procbody: LBRACE inc_level @9 get_table_addr constdecl . vardecls @10 statements @11 RBRACE @12 dec_level
+
+    $default  reduce using rule 18 (vardecls)
+
+    vardecls  go to state 203
+
+
+state 196
+
+   10 blockstm: LBRACE inc_level @4 constdecl vardecls @5 statements @6 . RBRACE @7 dec_level
+
+    RBRACE  shift, and go to state 204
+
+
+state 197
+
+   68 elsestm: ELSE . get_code_addr @14 statement
+
+    $default  reduce using rule 122 (get_code_addr)
+
+    get_code_addr  go to state 205
+
+
+state 198
+
+   66 ifstm: IF LPAREN bexpr RPAREN get_code_addr @13 statement elsestm .
+
+    $default  reduce using rule 66 (ifstm)
+
+
+state 199
+
+   71 whilestm: WHILE get_code_addr LPAREN bexpr RPAREN get_code_addr @15 statement .
+
+    $default  reduce using rule 71 (whilestm)
+
+
+state 200
+
+   75 repeatstm: REPEAT get_code_addr statement get_code_addr UNTIL LPAREN bexpr get_code_addr . @17 RPAREN SEMICOLON
+
+    $default  reduce using rule 74 (@17)
+
+    @17  go to state 206
+
+
+state 201
+
+   73 dowhilestm: DO get_code_addr statement get_code_addr WHILE LPAREN bexpr get_code_addr . @16 RPAREN SEMICOLON
+
+    $default  reduce using rule 72 (@16)
+
+    @16  go to state 207
+
+
+state 202
+
+   79 forstm: FOR LPAREN for1 get_code_addr for2 @18 SEMICOLON get_code_addr . @19 get_code_addr for3 RPAREN @20 get_code_addr statement
+
+    $default  reduce using rule 77 (@19)
+
+    @19  go to state 208
+
+
+state 203
+
+   17 vardecls: vardecls . vardecl
+   36 procbody: LBRACE inc_level @9 get_table_addr constdecl vardecls . @10 statements @11 RBRACE @12 dec_level
+
+    INT   shift, and go to state 15
+    BOOL  shift, and go to state 16
+    CHAR  shift, and go to state 17
+
+    $default  reduce using rule 33 (@10)
+
+    vardecl  go to state 19
+    type     go to state 20
+    @10      go to state 209
+
+
+state 204
+
+   10 blockstm: LBRACE inc_level @4 constdecl vardecls @5 statements @6 RBRACE . @7 dec_level
+
+    $default  reduce using rule 9 (@7)
+
+    @7  go to state 210
+
+
+state 205
+
+   68 elsestm: ELSE get_code_addr . @14 statement
+
+    $default  reduce using rule 67 (@14)
+
+    @14  go to state 211
+
+
+state 206
+
+   75 repeatstm: REPEAT get_code_addr statement get_code_addr UNTIL LPAREN bexpr get_code_addr @17 . RPAREN SEMICOLON
+
+    RPAREN  shift, and go to state 212
+
+
+state 207
+
+   73 dowhilestm: DO get_code_addr statement get_code_addr WHILE LPAREN bexpr get_code_addr @16 . RPAREN SEMICOLON
+
+    RPAREN  shift, and go to state 213
+
+
+state 208
+
+   79 forstm: FOR LPAREN for1 get_code_addr for2 @18 SEMICOLON get_code_addr @19 . get_code_addr for3 RPAREN @20 get_code_addr statement
+
+    $default  reduce using rule 122 (get_code_addr)
+
+    get_code_addr  go to state 214
+
+
+state 209
+
+   36 procbody: LBRACE inc_level @9 get_table_addr constdecl vardecls @10 . statements @11 RBRACE @12 dec_level
+
+    $default  reduce using rule 38 (statements)
+
+    statements  go to state 215
+
+
+state 210
+
+   10 blockstm: LBRACE inc_level @4 constdecl vardecls @5 statements @6 RBRACE @7 . dec_level
+
+    $default  reduce using rule 124 (dec_level)
+
+    dec_level  go to state 216
+
+
+state 211
+
+   68 elsestm: ELSE get_code_addr @14 . statement
+
+    error   shift, and go to state 37
+    LBRACE  shift, and go to state 38
+    IF      shift, and go to state 40
+    WHILE   shift, and go to state 41
+    WRITE   shift, and go to state 42
+    READ    shift, and go to state 43
+    REPEAT  shift, and go to state 44
+    CALL    shift, and go to state 45
+    DO      shift, and go to state 46
+    EXIT    shift, and go to state 47
+    FOR     shift, and go to state 48
+    IDENT   shift, and go to state 49
+
+    blockstm       go to state 50
+    statement      go to state 217
+    assignmentstm  go to state 52
+    readstm        go to state 53
+    writestm       go to state 54
+    exitstm        go to state 55
+    selfaddminus   go to state 56
+    ifstm          go to state 57
+    whilestm       go to state 58
+    dowhilestm     go to state 59
+    repeatstm      go to state 60
+    forstm         go to state 61
+    callstm        go to state 62
+    ident          go to state 63
+
+
+state 212
+
+   75 repeatstm: REPEAT get_code_addr statement get_code_addr UNTIL LPAREN bexpr get_code_addr @17 RPAREN . SEMICOLON
+
+    SEMICOLON  shift, and go to state 218
+
+
+state 213
+
+   73 dowhilestm: DO get_code_addr statement get_code_addr WHILE LPAREN bexpr get_code_addr @16 RPAREN . SEMICOLON
+
+    SEMICOLON  shift, and go to state 219
+
+
+state 214
+
+   79 forstm: FOR LPAREN for1 get_code_addr for2 @18 SEMICOLON get_code_addr @19 get_code_addr . for3 RPAREN @20 get_code_addr statement
+
+    IDENT  shift, and go to state 49
+
+    $default  reduce using rule 85 (for3)
+
+    selfaddminus  go to state 220
+    for3          go to state 221
+    ident         go to state 222
+
+
+state 215
+
+   36 procbody: LBRACE inc_level @9 get_table_addr constdecl vardecls @10 statements . @11 RBRACE @12 dec_level
+   37 statements: statements . statement
+
+    error   shift, and go to state 37
+    LBRACE  shift, and go to state 38
+    IF      shift, and go to state 40
+    WHILE   shift, and go to state 41
+    WRITE   shift, and go to state 42
+    READ    shift, and go to state 43
+    REPEAT  shift, and go to state 44
+    CALL    shift, and go to state 45
+    DO      shift, and go to state 46
+    EXIT    shift, and go to state 47
+    FOR     shift, and go to state 48
+    IDENT   shift, and go to state 49
+
+    RBRACE  reduce using rule 34 (@11)
+
+    blockstm       go to state 50
+    @11            go to state 223
+    statement      go to state 51
+    assignmentstm  go to state 52
+    readstm        go to state 53
+    writestm       go to state 54
+    exitstm        go to state 55
+    selfaddminus   go to state 56
+    ifstm          go to state 57
+    whilestm       go to state 58
+    dowhilestm     go to state 59
+    repeatstm      go to state 60
+    forstm         go to state 61
+    callstm        go to state 62
+    ident          go to state 63
+
+
+state 216
+
+   10 blockstm: LBRACE inc_level @4 constdecl vardecls @5 statements @6 RBRACE @7 dec_level .
+
+    $default  reduce using rule 10 (blockstm)
+
+
+state 217
+
+   68 elsestm: ELSE get_code_addr @14 statement .
+
+    $default  reduce using rule 68 (elsestm)
+
+
+state 218
+
+   75 repeatstm: REPEAT get_code_addr statement get_code_addr UNTIL LPAREN bexpr get_code_addr @17 RPAREN SEMICOLON .
+
+    $default  reduce using rule 75 (repeatstm)
+
+
+state 219
+
+   73 dowhilestm: DO get_code_addr statement get_code_addr WHILE LPAREN bexpr get_code_addr @16 RPAREN SEMICOLON .
+
+    $default  reduce using rule 73 (dowhilestm)
+
+
+state 220
+
+   84 for3: selfaddminus .
+
+    $default  reduce using rule 84 (for3)
+
+
+state 221
+
+   79 forstm: FOR LPAREN for1 get_code_addr for2 @18 SEMICOLON get_code_addr @19 get_code_addr for3 . RPAREN @20 get_code_addr statement
+
+    RPAREN  shift, and go to state 224
+
+
+state 222
+
+   63 selfaddminus: ident . SELFADD
+   64             | ident . SELFMIUNS
+
+    SELFADD    shift, and go to state 77
+    SELFMIUNS  shift, and go to state 78
+
+
+state 223
+
+   36 procbody: LBRACE inc_level @9 get_table_addr constdecl vardecls @10 statements @11 . RBRACE @12 dec_level
+
+    RBRACE  shift, and go to state 225
+
+
+state 224
+
+   79 forstm: FOR LPAREN for1 get_code_addr for2 @18 SEMICOLON get_code_addr @19 get_code_addr for3 RPAREN . @20 get_code_addr statement
+
+    $default  reduce using rule 78 (@20)
+
+    @20  go to state 226
+
+
+state 225
+
+   36 procbody: LBRACE inc_level @9 get_table_addr constdecl vardecls @10 statements @11 RBRACE . @12 dec_level
+
+    $default  reduce using rule 35 (@12)
+
+    @12  go to state 227
+
+
+state 226
+
+   79 forstm: FOR LPAREN for1 get_code_addr for2 @18 SEMICOLON get_code_addr @19 get_code_addr for3 RPAREN @20 . get_code_addr statement
+
+    $default  reduce using rule 122 (get_code_addr)
+
+    get_code_addr  go to state 228
+
+
+state 227
+
+   36 procbody: LBRACE inc_level @9 get_table_addr constdecl vardecls @10 statements @11 RBRACE @12 . dec_level
+
+    $default  reduce using rule 124 (dec_level)
+
+    dec_level  go to state 229
+
+
+state 228
+
+   79 forstm: FOR LPAREN for1 get_code_addr for2 @18 SEMICOLON get_code_addr @19 get_code_addr for3 RPAREN @20 get_code_addr . statement
+
+    error   shift, and go to state 37
+    LBRACE  shift, and go to state 38
+    IF      shift, and go to state 40
+    WHILE   shift, and go to state 41
+    WRITE   shift, and go to state 42
+    READ    shift, and go to state 43
+    REPEAT  shift, and go to state 44
+    CALL    shift, and go to state 45
+    DO      shift, and go to state 46
+    EXIT    shift, and go to state 47
+    FOR     shift, and go to state 48
+    IDENT   shift, and go to state 49
+
+    blockstm       go to state 50
+    statement      go to state 230
+    assignmentstm  go to state 52
+    readstm        go to state 53
+    writestm       go to state 54
+    exitstm        go to state 55
+    selfaddminus   go to state 56
+    ifstm          go to state 57
+    whilestm       go to state 58
+    dowhilestm     go to state 59
+    repeatstm      go to state 60
+    forstm         go to state 61
+    callstm        go to state 62
+    ident          go to state 63
+
+
+state 229
+
+   36 procbody: LBRACE inc_level @9 get_table_addr constdecl vardecls @10 statements @11 RBRACE @12 dec_level .
+
+    $default  reduce using rule 36 (procbody)
+
+
+state 230
+
+   79 forstm: FOR LPAREN for1 get_code_addr for2 @18 SEMICOLON get_code_addr @19 get_code_addr for3 RPAREN @20 get_code_addr statement .
+
+    $default  reduce using rule 79 (forstm)

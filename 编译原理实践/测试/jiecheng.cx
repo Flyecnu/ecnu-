@@ -1,0 +1,14 @@
+{
+    int x, re;
+    re = 1;
+    read(x);
+    if (x <= 0) {
+        re = 0;
+    } else {
+        while (x > 0) {
+            re = re * x;
+            x--;
+        }
+    }
+    write(re);
+}
